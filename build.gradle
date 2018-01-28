@@ -11,12 +11,23 @@ buildscript {
 }
 
 apply plugin: 'java'
+apply plugin: 'application'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 
 group = 'com.lsnotes.sandbox'
 version = '0.1.0-SNAPSHOT'
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
+mainClassName = 'com.lsnotes.sandbox.springboot.restapi.AppEntry'
+
+// Copies the project into a folder that'll be copied into the runtime container.
+task buildForContainer(type: Copy) {
+	dependsOn build
+	from jar
+	rename {'app.jar'}
+	into "${project.projectDir}/build/output"
+}
 
 repositories {
 	mavenCentral()
