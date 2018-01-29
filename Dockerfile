@@ -16,7 +16,7 @@ RUN ./gradlew buildForContainer --stacktrace
 
 
 # RUNTIME CONTAINER
-FROM openjdk:8-jre
+FROM openjdk:8-jre-alpine
 
 # Copy the product
 COPY --from=gradle-host /incoming/build/output/ /srv/
