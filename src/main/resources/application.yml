@@ -1,3 +1,18 @@
 spring:
   application:
     name: springboot-rest-api
+  influxdb:
+    url: http://database:8086
+    username: user
+    password: userpass
+    database: sbrestdb
+    retention-policy: autogen
+
+---
+spring:
+  profiles: dev
+  influxdb:
+    url: http://127.0.0.1:8086
+  devtools:
+    remote:
+      secret: thisismysecret

@@ -1,6 +1,9 @@
+import org.springframework.boot.gradle.run.BootRunTask
+
 buildscript {
 	ext {
 		springBootVersion = '1.5.9.RELEASE'
+		springDataInfluxdbVersion = '1.6'
 	}
 	repositories {
 		mavenCentral()
@@ -21,6 +24,16 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 mainClassName = 'com.lsnotes.sandbox.springboot.restapi.AppEntry'
 
+// Runs bootRun task with --spring.profiles.active=dev
+task bootRunDev(type: BootRunTask, dependsOn: 'build') {
+	group = 'Application'
+	doFirst() {
+		main = project.mainClassName
+		classpath = sourceSets.main.runtimeClasspath
+		systemProperty 'spring.profiles.active', 'dev'
+	}
+}
+
 // Copies the project into a folder that'll be copied into the runtime container.
 task buildForContainer(type: Copy) {
 	dependsOn build
@@ -35,5 +48,6 @@ repositories {
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+	compile('org.springframework.boot:spring-boot-devtools')
+	compile("com.github.miwurster:spring-data-influxdb:${springDataInfluxdbVersion}")
 }
